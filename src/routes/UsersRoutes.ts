@@ -3,6 +3,10 @@ import { UsersController } from "../controller/UsersController";
 
 const routes = Router();
 
-routes.post("/users", new UsersController().handle);
+routes.get("/users", new UsersController().getAllUsers);
+routes.get("/users/:id", new UsersController().getUsersById);
+routes.post("/users", new UsersController().saveUsers);
+routes.post("/login", new UsersController().loginUser);
+routes.delete("/users/:id", new UsersController().deleteUser);
 
 export default routes;
