@@ -7,13 +7,13 @@ export class SendEmailService {
             port: 587,
             secure: false,
             auth: {
-                user: "danieldev3320@gmail.com",
-                pass: "123456Qwert"
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORDEMAIL
             }
         });
 
         await transporter.sendMail({
-            from: "danieldev3320@gmail.com",
+            from: process.env.EMAIL,
             to: email,
             subject: "Obrigado por utilizar nossa plataforma!",
             text: `${name} Muito obrigado por utilizar o nosso sistema, equipe Influeasy!`
