@@ -4,12 +4,14 @@ import { GetAllUsersService } from "../services/GetAllUsersService";
 import { GetUserByIdService } from "../services/GetUserByIdService";
 import { DeleteUserService } from "../services/DeleteUserService";
 import { UsersAuthService } from "../services/UsersAuthService";
+import { SendEmailService } from "../services/SendEmailService";
 
 export class UsersController {
     async saveUsers(request: Request, response: Response) {
         const { name, email, password } = request.body;
 
         const users = new CreateUsersService();
+        const sendMail = new SendEmailService();
 
         const result = await users.saveUsers({ name, email, password });
 
@@ -17,6 +19,7 @@ export class UsersController {
             return response.status(400).json(result.message)
         }
 
+        sendMail.sendMail({ name, email })
         return response.status(200).json(result)
     }
 
