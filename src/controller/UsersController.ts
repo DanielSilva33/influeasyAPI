@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { CreateUsersService } from "../services/CreateUsersService";
-import { GetAllUsersService } from "../services/GetAllUsersService";
-import { GetUserByIdService } from "../services/GetUserByIdService";
-import { DeleteUserService } from "../services/DeleteUserService";
-import { UsersAuthService } from "../services/UsersAuthService";
+import { CreateUsersService } from "../services/UserService/CreateUsersService";
+import { GetAllUsersService } from "../services/UserService/GetAllUsersService";
+import { GetUserByIdService } from "../services/UserService/GetUserByIdService";
+import { DeleteUserService } from "../services/UserService/DeleteUserService";
+import { UsersAuthService } from "../services/UserService/UsersAuthService";
+import { UpdateUserService } from "../services/UserService/UpdateUserService";
 import { SendEmailService } from "../services/SendEmailService";
 
 export class UsersController {
@@ -64,7 +65,22 @@ export class UsersController {
 
         return response.status(200).json(result)
 
-
     }
+
+    async updateUsers(request: Request, response: Response) {
+        const { name, email, password } = request.body;
+        const { id } = request.params;
+
+        const users = new UpdateUserService();
+
+        const result = await users.updateUsers({ id, name, email, password });
+
+        if (result instanceof Error) {
+            return response.status(400).json(result.message)
+        }
+
+        return response.status(200).json(result)
+    }
+
 
 }

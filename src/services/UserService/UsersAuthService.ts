@@ -1,5 +1,5 @@
 import { getRepository } from "typeorm";
-import { Users } from "../entity/Users";
+import { Users } from "../../entity/Users";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
