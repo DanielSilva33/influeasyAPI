@@ -15,28 +15,29 @@ export class UsersAuthService {
             where: {
                 email
             }
-        });
-
+        })
+    
         if (users.length === 1) {
+    
             if (await bcrypt.compare(password, users[0].password)) {
-                
-                const token = jwt.sign({ id: users[0].id}, process.env.APP_PASS, {
-                    expiresIn: "1d"
-                });
-
-                const data = {
-                    id: users[0].id,
-                    name: users[0].name,
-                    email: users[0].email,
-                    token
-                }
-
-                return data;
+    
+               const token = jwt.sign({ id: users[0].id}, process.env.APP_PASS, {
+                   expiresIn: "1d"
+               });
+    
+               const data = {
+                   id: users[0].id,
+                   name: users[0].name,
+                   email: users[0].email,
+                   token
+               }
+               return data;
+    
             } else {
-                return new Error("User not found");
+                return new Error("Email or password incorrect please try again!");
             }
         } else {
-            return new Error("User not found");
+            return new Error("User not found!");
         }
 
     }

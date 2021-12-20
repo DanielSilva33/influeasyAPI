@@ -5,7 +5,9 @@ import { GetUserByIdService } from "../services/UserService/GetUserByIdService";
 import { DeleteUserService } from "../services/UserService/DeleteUserService";
 import { UsersAuthService } from "../services/UserService/UsersAuthService";
 import { UpdateUserService } from "../services/UserService/UpdateUserService";
-import { SendEmailService } from "../services/SendEmailService";
+import { ResetPasswordService } from "../services/UserService/ResetPasswordService";
+import { SendEmailService } from "../services/SendMail/SendFirstEmailService";
+import { SendResetPasswordEmailService } from "../services/SendMail/SendResetPasswordEmailService";
 
 export class UsersController {
     async saveUsers(request: Request, response: Response) {
@@ -78,6 +80,23 @@ export class UsersController {
         if (result instanceof Error) {
             return response.status(400).json(result.message)
         }
+
+        return response.status(200).json(result)
+    }
+
+    async resetPassword(request: Request, response: Response) {
+        const { id } = request.params;
+
+        const users = new ResetPasswordService();
+        const sendMail = new SendResetPasswordEmailService();
+
+        const result = await users.resetPassword({ id });
+
+        if (result instanceof Error) {
+            return response.status(400).json(result.message)
+        }
+        
+        sendMail.sendMail({ id });
 
         return response.status(200).json(result)
     }
